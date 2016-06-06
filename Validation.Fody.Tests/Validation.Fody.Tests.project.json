@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "Mono.Cecil": "0.9.6.1",
+    "xunit": "2.1.0"
+  },
+
+  "frameworks": {
+    "net45": { }
+  },
+
+  "runtimes": {
+    "win": {}
+  }
+}

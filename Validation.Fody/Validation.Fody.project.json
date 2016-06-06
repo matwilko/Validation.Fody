@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "Mono.Cecil": {
+      "type": "build",
+      "version": "0.9.6.1"
+    }
+  },
+  
+  "frameworks": {
+    "net45": { }
+  },
+  
+  "runtimes": {
+    "win" : {}
+  }
+}
