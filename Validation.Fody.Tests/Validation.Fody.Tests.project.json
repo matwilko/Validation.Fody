@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "Mono.Cecil": "0.9.6.1",
-    "xunit": "2.1.0"
+    "xunit": "2.1.0",
+    "Microsoft.CodeAnalysis.CSharp": "1.2.2"
   },
 
   "frameworks": {
