@@ -39,6 +39,27 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeWeaver.cs" />
+    <Compile Include="Helpers\GenericsHelpers.cs" />
+    <Compile Include="Helpers\ModuleHelpers.cs" />
+    <Compile Include="Helpers\NullableHelpers.cs" />
+    <Compile Include="Internals\Config\Config.cs" />
+    <Compile Include="Internals\Config\ConfigDeserializationHelper.cs" />
+    <Compile Include="Internals\Config\Config{TConfigType}.cs" />
+    <Compile Include="Internals\Config\IConfig{TConfigType}.cs" />
+    <Compile Include="Internals\Discovery\Discovery.cs" />
+    <Compile Include="Internals\Config\IConfig.cs" />
+    <Compile Include="Internals\Discovery\ParameterWeaverSet.cs" />
+    <Compile Include="Internals\Discovery\PropertyWeaverSet.cs" />
+    <Compile Include="Internals\Discovery\WeaverAttributePair.cs" />
+    <Compile Include="Internals\ILogger.cs" />
+    <Compile Include="Internals\ILProcessorAppender.cs" />
+    <Compile Include="Internals\Injector.cs" />
+    <Compile Include="Internals\Logger.cs" />
+    <Compile Include="Internals\Processor.cs" />
+    <Compile Include="Internals\WeaverGenerator.cs" />
+    <Compile Include="Internals\WeaverWrapper.cs" />
+    <Compile Include="Helpers\XElementExtensions.cs" />
     <Compile Include="ModuleWeaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
