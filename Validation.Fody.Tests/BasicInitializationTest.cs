@@ -1,5 +1,6 @@
 ﻿namespace Validation.Fody.Tests
 {
+    using Validation.Fody.Tests.Compilation;
     using Xunit;
 
     public sealed class BasicInitializationTest

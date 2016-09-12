@@ -36,8 +36,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicInitializationTest.cs" />
+    <Compile Include="Compilation\BuildMessage.cs" />
+    <Compile Include="Compilation\Compilation.cs" />
+    <Compile Include="Compilation\MemberType.cs" />
+    <Compile Include="Compilation\MessageLevel.cs" />
+    <Compile Include="Compilation\TransformResult.cs" />
+    <Compile Include="DataAttributes\NullableTypesAttribute.cs" />
+    <Compile Include="DataAttributes\NullableValueTypesAttribute.cs" />
+    <Compile Include="DataAttributes\ReferenceTypesAttribute.cs" />
+    <Compile Include="DataAttributes\TypesAttribute.cs" />
+    <Compile Include="DataAttributes\ValueTypesAttribute.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Method.cs" />
+    <Compile Include="NotNullWeaver\NotNullWeaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transform.cs" />
+    <Compile Include="Compilation\Transform.cs" />
+    <Compile Include="ValueHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Validation.Fody.Tests.project.json" />
