@@ -39,7 +39,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeWeaver.cs" />
+    <Compile Include="IAttributeWeaver.cs" />
     <Compile Include="Helpers\GenericsHelpers.cs" />
     <Compile Include="Helpers\ModuleHelpers.cs" />
     <Compile Include="Helpers\NullableHelpers.cs" />
