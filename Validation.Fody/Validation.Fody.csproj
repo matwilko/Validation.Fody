@@ -63,6 +63,7 @@
     <Compile Include="ModuleWeaver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Weavers\NotNullWeaver.cs" />
+    <Compile Include="Weavers\Strings\NotNullOrEmptyWeaver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Validation.Fody.project.json" />
