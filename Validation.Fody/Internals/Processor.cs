@@ -53,7 +53,7 @@
                     // in order to preserve the behaviour that the C# compiler would
                     // have generated had the checks been written by hand
                     firstInstruction = parameterInfo.Method.Body.Instructions
-                        .First(i => i.OpCode.Code == Code.Call && ((MethodDefinition)i.Operand).Name == ".ctor");
+                        .First(i => i.OpCode.Code == Code.Call && ((MethodReference)i.Operand).Name == ".ctor");
                 }
                 else
                 {
