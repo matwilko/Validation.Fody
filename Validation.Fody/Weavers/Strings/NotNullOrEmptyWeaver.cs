@@ -5,6 +5,7 @@
     using Mono.Cecil;
     using Mono.Cecil.Cil;
     using Mono.Cecil.Rocks;
+    using Internals;
     using ValidationAttributes.Strings;
 
     internal sealed class NotNullOrEmptyWeaver : IAttributeWeaver<NotNullOrEmptyAttribute>
@@ -21,40 +22,40 @@
             return type.FullName == "System.String" || type.FullName == "System.Char[]";
         }
 
-        public void Execute(NotNullOrEmptyAttribute attribute, ParameterDefinition parameter, Action<Instruction> appendInstruction)
+        public void Execute(NotNullOrEmptyAttribute attribute, ParameterDefinition parameter, IlProcessorAppender ilProcessor)
         {
             GenerateCheck(
                 parameter,
-                appendInstruction,
+                ilProcessor,
                 parameter.Name
             );
         }
 
-        public void Execute(NotNullOrEmptyAttribute attribute, PropertyDefinition property, Action<Instruction> appendInstruction)
+        public void Execute(NotNullOrEmptyAttribute attribute, PropertyDefinition property, IlProcessorAppender ilProcessor)
         {
             GenerateCheck(
                 property.SetMethod.Parameters.First(),
-                appendInstruction,
+                ilProcessor,
                 "value"
             );
         }
 
-        private void GenerateCheck(ParameterDefinition parameter, Action<Instruction> append, string name)
+        private void GenerateCheck(ParameterDefinition parameter, IlProcessorAppender ilProcessor, string name)
         {
             var endInstruction = Instruction.Create(OpCodes.Nop);
 
             // Null Check
             var emptyCheckLdArg = Instruction.Create(OpCodes.Ldarg, parameter);
-            
-            append(Instruction.Create(OpCodes.Ldarg, parameter));
-            append(Instruction.Create(OpCodes.Brtrue_S, emptyCheckLdArg));
 
-            append(Instruction.Create(OpCodes.Ldstr, name));
-            append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
-            append(Instruction.Create(OpCodes.Throw));
-            
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldarg, parameter));
+            ilProcessor.Append(Instruction.Create(OpCodes.Brtrue_S, emptyCheckLdArg));
+
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
+            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
+            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+
             // Empty Check
-            append(emptyCheckLdArg);
+            ilProcessor.Append(emptyCheckLdArg);
             
             if (parameter.ParameterType.FullName == "System.String")
             {
@@ -62,7 +63,7 @@
                     .Properties.Single(p => p.Name == "Length")
                     .GetMethod;
 
-                append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(stringLength)));
+                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(stringLength)));
             }
             else if (parameter.ParameterType.FullName == "System.Char[]")
             {
@@ -70,18 +71,18 @@
                     .Properties.Single(p => p.Name == "Length")
                     .GetMethod;
 
-                append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(arrayLength)));
+                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(arrayLength)));
             }
 
-            append(Instruction.Create(OpCodes.Ldc_I4_0));
-            append(Instruction.Create(OpCodes.Bne_Un_S, endInstruction));
-            
-            append(Instruction.Create(OpCodes.Ldstr, "The given string cannot be empty"));
-            append(Instruction.Create(OpCodes.Ldstr, name));
-            append(Instruction.Create(OpCodes.Newobj, GetArgumentExceptionConstructor()));
-            append(Instruction.Create(OpCodes.Throw));
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+            ilProcessor.Append(Instruction.Create(OpCodes.Bne_Un_S, endInstruction));
 
-            append(endInstruction);
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, "The given string cannot be empty"));
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
+            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentExceptionConstructor()));
+            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+
+            ilProcessor.Append(endInstruction);
         }
 
         private MethodReference GetArgumentExceptionConstructor()

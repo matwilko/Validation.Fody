@@ -2,7 +2,7 @@
 {
     using System;
     using Mono.Cecil;
-    using Mono.Cecil.Cil;
+    using Internals;
 
     /// <summary>
     /// Marks a class as being able to weave for a particular attribute
@@ -13,7 +13,7 @@
     {
         bool IsValidOn(TypeReference type);
 
-        void Execute(TAttribute attribute, ParameterDefinition parameter, Action<Instruction> appendInstruction);
-        void Execute(TAttribute attribute, PropertyDefinition property, Action<Instruction> appendInstruction);
+        void Execute(TAttribute attribute, ParameterDefinition parameter, IlProcessorAppender ilProcessor);
+        void Execute(TAttribute attribute, PropertyDefinition property, IlProcessorAppender ilProcessor);
     }
 }

@@ -20,8 +20,7 @@
                     continue;
                 }
 
-                var methodProcessor = property.SetMethod.Body.GetILProcessor();
-                var appender = new IlProcessorAppender(methodProcessor, null);
+                var appender = new IlProcessorAppender(property.SetMethod, null);
                 
                 foreach (var weaver in propertyInfo.Weavers)
                 {
@@ -31,7 +30,7 @@
                     }
                     else
                     {
-                        weaver.Weaver.Execute(weaver.GetInstantiatedAttribute(), property, appender.Append);
+                        weaver.Weaver.Execute(weaver.GetInstantiatedAttribute(), property, appender);
                         property.CustomAttributes.Remove(weaver.CustomAttribute);
                     }
                 }
@@ -59,9 +58,8 @@
                 {
                     firstInstruction = null;
                 }
-
-                var methodProcessor = method.Body.GetILProcessor();
-                var appender = new IlProcessorAppender(methodProcessor, firstInstruction);
+                
+                var appender = new IlProcessorAppender(method, firstInstruction);
                 
                 foreach (var weaver in parameterInfo.Weavers)
                 {
@@ -71,7 +69,7 @@
                     }
                     else
                     {
-                        weaver.Weaver.Execute(weaver.GetInstantiatedAttribute(), parameter, appender.Append);
+                        weaver.Weaver.Execute(weaver.GetInstantiatedAttribute(), parameter, appender);
                         parameter.CustomAttributes.Remove(weaver.CustomAttribute);
                     }
                 }

@@ -1,10 +1,12 @@
 namespace Validation.Fody.Internals
 {
     using System.Linq;
+    using Mono.Cecil;
     using Mono.Cecil.Cil;
 
     internal sealed class IlProcessorAppender
     {
+        private MethodDefinition Method { get; }
         private ILProcessor Processor { get; }
         private Instruction PreviousInstruction { get; set; }
 
@@ -27,10 +29,21 @@ namespace Validation.Fody.Internals
             PreviousInstruction = instruction;
         }
 
-        public IlProcessorAppender(ILProcessor processor, Instruction firstInstruction)
+        public IlProcessorAppender(MethodDefinition method, Instruction firstInstruction)
         {
-            Processor = processor;
+            Method = Method;
+            Processor = method.Body.GetILProcessor();
             PreviousInstruction = firstInstruction;
+        }
+
+        /// <summary>
+        /// Creates a new local variable in the method with the given type and name
+        /// </summary>
+        public VariableDefinition DeclareLocal(TypeReference type, string name)
+        {
+            var varDef = new VariableDefinition(name, type);
+            Method.Body.Variables.Add(varDef);
+            return varDef;
         }
     }
 }

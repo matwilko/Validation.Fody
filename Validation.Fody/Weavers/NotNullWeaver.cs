@@ -6,6 +6,7 @@
     using Mono.Cecil;
     using Mono.Cecil.Cil;
     using Mono.Cecil.Rocks;
+    using Internals;
     using ValidationAttributes;
 
     internal sealed class NotNullWeaver : IAttributeWeaver<NotNullAttribute>
@@ -32,42 +33,42 @@
             return ((GenericInstanceType) type).ElementType.FullName == "System.Nullable`1";
         }
 
-        public void Execute(NotNullAttribute attribute, ParameterDefinition parameter, Action<Instruction> appendInstruction)
+        public void Execute(NotNullAttribute attribute, ParameterDefinition parameter, IlProcessorAppender ilProcessor)
         {
             GenerateNullCheck(
                 parameter,
-                appendInstruction,
+                ilProcessor,
                 parameter.Name
             );
         }
         
-        public void Execute(NotNullAttribute attribute, PropertyDefinition property, Action<Instruction> appendInstruction)
+        public void Execute(NotNullAttribute attribute, PropertyDefinition property, IlProcessorAppender ilProcessor)
         {
             GenerateNullCheck(
                 property.SetMethod.Parameters.First(),
-                appendInstruction,
+                ilProcessor,
                 "value"
             );
         }
 
-        private void GenerateNullCheck(ParameterDefinition parameter, Action<Instruction> append, string name)
+        private void GenerateNullCheck(ParameterDefinition parameter, IlProcessorAppender ilProcessor, string name)
         {
             var endInstruction = Instruction.Create(OpCodes.Nop);
             if (parameter.ParameterType.IsValueType)
             {
-                append(Instruction.Create(OpCodes.Ldarga_S, parameter));
-                append(Instruction.Create(OpCodes.Call, ModuleDefinition.NullableHasValue(parameter.ParameterType.GetNullableInnerType())));
+                ilProcessor.Append(Instruction.Create(OpCodes.Ldarga_S, parameter));
+                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.NullableHasValue(parameter.ParameterType.GetNullableInnerType())));
             }
             else
             {
-                append(Instruction.Create(OpCodes.Ldarg, parameter));
+                ilProcessor.Append(Instruction.Create(OpCodes.Ldarg, parameter));
             }
-            
-            append(Instruction.Create(OpCodes.Brtrue_S, endInstruction));
-            append(Instruction.Create(OpCodes.Ldstr, name));
-            append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
-            append(Instruction.Create(OpCodes.Throw));
-            append(endInstruction);
+
+            ilProcessor.Append(Instruction.Create(OpCodes.Brtrue_S, endInstruction));
+            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
+            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
+            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+            ilProcessor.Append(endInstruction);
         }
 
         private MethodReference GetArgumentNullExceptionConstructor()
