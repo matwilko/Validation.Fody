@@ -56,18 +56,18 @@
             var endInstruction = Instruction.Create(OpCodes.Nop);
             if (parameter.ParameterType.IsValueType)
             {
-                ilProcessor.Append(Instruction.Create(OpCodes.Ldarga_S, parameter));
-                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.NullableHasValue(parameter.ParameterType.GetNullableInnerType())));
+                ilProcessor.Append(OpCodes.Ldarga_S, parameter);
+                ilProcessor.Append(OpCodes.Call, ModuleDefinition.NullableHasValue(parameter.ParameterType.GetNullableInnerType()));
             }
             else
             {
-                ilProcessor.Append(Instruction.Create(OpCodes.Ldarg, parameter));
+                ilProcessor.Append(OpCodes.Ldarg, parameter);
             }
 
-            ilProcessor.Append(Instruction.Create(OpCodes.Brtrue_S, endInstruction));
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
-            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
-            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+            ilProcessor.Append(OpCodes.Brtrue_S, endInstruction);
+            ilProcessor.Append(OpCodes.Ldstr, name);
+            ilProcessor.Append(OpCodes.Newobj, GetArgumentNullExceptionConstructor());
+            ilProcessor.Append(OpCodes.Throw);
             ilProcessor.Append(endInstruction);
         }
 

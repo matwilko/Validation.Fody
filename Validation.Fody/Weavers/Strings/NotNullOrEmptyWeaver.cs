@@ -47,12 +47,12 @@
             // Null Check
             var emptyCheckLdArg = Instruction.Create(OpCodes.Ldarg, parameter);
 
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldarg, parameter));
-            ilProcessor.Append(Instruction.Create(OpCodes.Brtrue_S, emptyCheckLdArg));
+            ilProcessor.Append(OpCodes.Ldarg, parameter);
+            ilProcessor.Append(OpCodes.Brtrue_S, emptyCheckLdArg);
 
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
-            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentNullExceptionConstructor()));
-            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+            ilProcessor.Append(OpCodes.Ldstr, name);
+            ilProcessor.Append(OpCodes.Newobj, GetArgumentNullExceptionConstructor());
+            ilProcessor.Append(OpCodes.Throw);
 
             // Empty Check
             ilProcessor.Append(emptyCheckLdArg);
@@ -63,7 +63,7 @@
                     .Properties.Single(p => p.Name == "Length")
                     .GetMethod;
 
-                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(stringLength)));
+                ilProcessor.Append(OpCodes.Call, ModuleDefinition.Import(stringLength));
             }
             else if (parameter.ParameterType.FullName == "System.Char[]")
             {
@@ -71,16 +71,16 @@
                     .Properties.Single(p => p.Name == "Length")
                     .GetMethod;
 
-                ilProcessor.Append(Instruction.Create(OpCodes.Call, ModuleDefinition.Import(arrayLength)));
+                ilProcessor.Append(OpCodes.Call, ModuleDefinition.Import(arrayLength));
             }
 
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
-            ilProcessor.Append(Instruction.Create(OpCodes.Bne_Un_S, endInstruction));
+            ilProcessor.Append(OpCodes.Ldc_I4_0);
+            ilProcessor.Append(OpCodes.Bne_Un_S, endInstruction);
 
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, "The given string cannot be empty"));
-            ilProcessor.Append(Instruction.Create(OpCodes.Ldstr, name));
-            ilProcessor.Append(Instruction.Create(OpCodes.Newobj, GetArgumentExceptionConstructor()));
-            ilProcessor.Append(Instruction.Create(OpCodes.Throw));
+            ilProcessor.Append(OpCodes.Ldstr, "The given string cannot be empty");
+            ilProcessor.Append(OpCodes.Ldstr, name);
+            ilProcessor.Append(OpCodes.Newobj, GetArgumentExceptionConstructor());
+            ilProcessor.Append(OpCodes.Throw);
 
             ilProcessor.Append(endInstruction);
         }

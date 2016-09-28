@@ -10,7 +10,7 @@ namespace Validation.Fody.Internals
         private ILProcessor Processor { get; }
         private Instruction PreviousInstruction { get; set; }
 
-        public void Append(Instruction instruction)
+        public Instruction Append(Instruction instruction)
         {
             if (PreviousInstruction == null)
             {
@@ -27,6 +27,8 @@ namespace Validation.Fody.Internals
             }
 
             PreviousInstruction = instruction;
+
+            return instruction;
         }
 
         public IlProcessorAppender(MethodDefinition method, Instruction firstInstruction)
@@ -45,5 +47,22 @@ namespace Validation.Fody.Internals
             Method.Body.Variables.Add(varDef);
             return varDef;
         }
+
+        public Instruction Append(OpCode opcode) => Append(Instruction.Create(opcode));
+        public Instruction Append(OpCode opcode, TypeReference type) => Append(Instruction.Create(opcode, type));
+        public Instruction Append(OpCode opcode, CallSite site) => Append(Instruction.Create(opcode, site));
+        public Instruction Append(OpCode opcode, MethodReference method) => Append(Instruction.Create(opcode, method));
+        public Instruction Append(OpCode opcode, FieldReference field) => Append(Instruction.Create(opcode, field));
+        public Instruction Append(OpCode opcode, string value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, sbyte value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, byte value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, int value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, long value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, float value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, double value) => Append(Instruction.Create(opcode, value));
+        public Instruction Append(OpCode opcode, Instruction target) => Append(Instruction.Create(opcode, target));
+        public Instruction Append(OpCode opcode, Instruction[] targets) => Append(Instruction.Create(opcode, targets));
+        public Instruction Append(OpCode opcode, VariableDefinition variable) => Append(Instruction.Create(opcode, variable));
+        public Instruction Append(OpCode opcode, ParameterDefinition parameter) => Append(Instruction.Create(opcode, parameter));
     }
 }
