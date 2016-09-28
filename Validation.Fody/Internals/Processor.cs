@@ -1,10 +1,9 @@
 ﻿namespace Validation.Fody.Internals
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Discovery;
-    using Mono.Cecil;
     using Mono.Cecil.Cil;
+    using Helpers;
 
     internal static class Processor
     {
@@ -51,8 +50,7 @@
                     // We make sure the validation occurs after the this/base call
                     // in order to preserve the behaviour that the C# compiler would
                     // have generated had the checks been written by hand
-                    firstInstruction = parameterInfo.Method.Body.Instructions
-                        .First(i => i.OpCode.Code == Code.Call && ((MethodReference)i.Operand).Name == ".ctor");
+                    firstInstruction = parameterInfo.Method.FindChainedCall();
                 }
                 else
                 {
