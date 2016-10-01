@@ -33,7 +33,7 @@ namespace Validation.Fody.Internals
 
         public IlProcessorAppender(MethodDefinition method, Instruction firstInstruction)
         {
-            Method = Method;
+            Method = method;
             Processor = method.Body.GetILProcessor();
             PreviousInstruction = firstInstruction;
         }
