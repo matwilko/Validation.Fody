@@ -32,6 +32,17 @@
             }
         }
 
+        public static IEnumerable<string> RandomStringsOfLength(int length, char[] alphabet)
+        {
+            var buffer = new byte[length];
+            var characters = buffer.Select(b => alphabet[b % alphabet.Length]);
+            while (true)
+            {
+                Random.NextBytes(buffer);
+                yield return new string(characters.ToArray());
+            }
+        }
+
         public static string RandomStringOfLength(int length) => RandomStringsOfLength(length).First();
 
         public static IEnumerable<object[]> AsTestArguments<T>(this IEnumerable<T> sequence) => sequence.Select(item => AsTestArguments(item));
