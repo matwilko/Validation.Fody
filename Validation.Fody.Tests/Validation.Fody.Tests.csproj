@@ -41,9 +41,12 @@
     <Compile Include="Compilation\MemberType.cs" />
     <Compile Include="Compilation\MessageLevel.cs" />
     <Compile Include="Compilation\TransformResult.cs" />
+    <Compile Include="DataAttributes\Chars.cs" />
     <Compile Include="DataAttributes\RandomCharArraysAttribute.cs" />
     <Compile Include="DataAttributes\NullableTypesAttribute.cs" />
     <Compile Include="DataAttributes\NullableValueTypesAttribute.cs" />
+    <Compile Include="DataAttributes\RandomWhiteSpaceCharArraysAttribute.cs" />
+    <Compile Include="DataAttributes\RandomWhiteSpaceStringsAttribute.cs" />
     <Compile Include="DataAttributes\ReferenceTypesAttribute.cs" />
     <Compile Include="DataAttributes\TypesAttribute.cs" />
     <Compile Include="DataAttributes\ValueTypesAttribute.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="DataAttributes\RandomStringsAttribute.cs" />
     <Compile Include="Strings\NotNullOrEmptyWeaver.cs" />
     <Compile Include="Compilation\Transform.cs" />
+    <Compile Include="Strings\NotNullorWhiteSpaceWeaver.cs" />
     <Compile Include="ValueHelper.cs" />
   </ItemGroup>
   <ItemGroup>
