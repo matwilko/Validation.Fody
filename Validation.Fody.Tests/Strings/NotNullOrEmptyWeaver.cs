@@ -54,7 +54,7 @@
         }
 
         [Theory, CombinatorialData]
-        public void AcceptsRandomNonEmptyCharArrays(MemberType memberType, [RandomCharArray] char[] testChars)
+        public void AcceptsRandomNonEmptyCharArrays(MemberType memberType, [RandomCharArrays] char[] testChars)
         {
             var result = Transform.FromAttributeSource<char[]>(memberType, "[ValidationAttributes.Strings.NotNullOrEmptyAttribute]");
 

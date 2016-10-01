@@ -41,7 +41,7 @@
     <Compile Include="Compilation\MemberType.cs" />
     <Compile Include="Compilation\MessageLevel.cs" />
     <Compile Include="Compilation\TransformResult.cs" />
-    <Compile Include="DataAttributes\RandomCharArrayAttribute.cs" />
+    <Compile Include="DataAttributes\RandomCharArraysAttribute.cs" />
     <Compile Include="DataAttributes\NullableTypesAttribute.cs" />
     <Compile Include="DataAttributes\NullableValueTypesAttribute.cs" />
     <Compile Include="DataAttributes\ReferenceTypesAttribute.cs" />
